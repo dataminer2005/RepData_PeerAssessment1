@@ -124,7 +124,7 @@ sum(is.na(Try1Data))
 
 ```{r}
 totSteps1 <-aggregate(Try1Data$steps, by=list(Group.Date = Try1Data$date), FUN=sum)$x
-print(totSteps1)
+
 mean_tot1 <- mean(totSteps1)
 median_tot1 <- median(totSteps1)
 mean_tot1
@@ -162,7 +162,6 @@ names(avgSteps)[3] <- "AverageSteps"
 
 dim(avgSteps)
 head(avgSteps)
-
 
 library(lattice)
 
