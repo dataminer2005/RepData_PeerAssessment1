@@ -7,10 +7,11 @@ keep_md: true
 
 
 ## Step 1: Setting Global Options
-
-```{r setoptions, echo=TRUE, cache = TRUE} # make code visible for reviewers
+           - notes: couldn't get knit2html() works, so no figure folder uploaded to github
+           
+```{r, setoptions, echo=TRUE, cache = TRUE} 
 library(knitr)
-opts_chunk$set(echo = FALSE)
+opts_chunk$set(echo = FALSE) #remove
 ```
 
 ## Step 2: Set Working Directory to where the repo was cloned 
@@ -146,18 +147,23 @@ For this data, the impact of imputing missing data on the estimate of the total 
 ```{r}
 head(Try1Data)
 Try1Data$day <- weekdays(as.Date(Try1Data$date))
+Try1Data$day1 <- factor(format(Try1Data$date, "%A"))
 head(Try1Data)
 levels(Try1Data$day)
 levels(Try1Data$day) <- list(weekday = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),
                              weekend = c("Saturday", "Sunday"))
+levels(Try1Data$day1) <- list(weekday = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),
+                             weekend = c("Saturday", "Sunday"))
 levels(Try1Data$day)
+levels(Try1Data$day1)
 table(Try1Data$day)
+table(Try1Data$day1)
 ```
    2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
 
 ```{r}   
 avgSteps <- aggregate(Try1Data$steps, list(interval = as.numeric(as.character(Try1Data$interval)), 
-                                           day = Try1Data$day), FUN = "mean")
+                                           day = Try1Data$day1), FUN = "mean")
 names(avgSteps)[3] <- "AverageSteps"
 
 dim(avgSteps)
@@ -168,8 +174,6 @@ library(lattice)
 xyplot(avgSteps$AverageSteps ~ avgSteps$interval | avgSteps$day, 
        layout = c(1, 2), type = "l", 
        xlab = "5 Minutes Interval", ylab = "Average Number of Steps")
-
-#ggplot(avgSteps, aes(interval ~ AverageSteps)|day) + geom_line(color = "purple", size = 0.6) + labs(title = "Time Series Plot of 5-minute Intervals", layout = c(1, 2), x = "5-minute intervals", y = "Average Number of Steps Taken All Days")
 ```
 
 
